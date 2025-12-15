@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./right.css";
 import { registerUser } from "../../../api/authApi";
+import Select from "react-select";
 
 export default function RightSide() {
   const navigate = useNavigate();
@@ -13,9 +14,30 @@ export default function RightSide() {
     confirmPassword: "",
     country: "",
     level: "",
-    affiliation: "",
+    Affiliation: "",
     phone: "",
   });
+  const [countries, setCountries] = useState([]);
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const res = await fetch(
+          "https://restcountries.com/v3.1/all?fields=name"
+        ); // API مجاني للدول
+        const data = await res.json();
+        // نرتب الدول أبجديًا
+        const countryList = data
+          .map((c) => c.name.common)
+          .sort((a, b) => a.localeCompare(b));
+        setCountries(countryList);
+      } catch (error) {
+        console.error("Failed to fetch countries:", error);
+      }
+    };
+
+    fetchCountries();
+  }, []);
 
   const [errors, setErrors] = useState({});
   const [generalError, setGeneralError] = useState("");
@@ -157,13 +179,25 @@ export default function RightSide() {
           <div className="form-row two-columns">
             <div className="form-group">
               <label>Country</label>
-              <input
-                className="form-input"
-                type="text"
+              <Select
+                className="form-select"
                 name="country"
-                value={formData.country}
-                placeholder="Country"
-                onChange={handleChange}
+                value={
+                  formData.country
+                    ? { label: formData.country, value: formData.country }
+                    : null
+                }
+                onChange={(selectedOption) =>
+                  handleChange({
+                    target: {
+                      name: "country",
+                      value: selectedOption?.value || "",
+                    },
+                  })
+                }
+                options={countries.map((c) => ({ label: c, value: c }))}
+                placeholder="Select or search country..."
+                isSearchable
               />
               {errors.country && Array.isArray(errors.country) && (
                 <p className="field-error">{errors.country[0]}</p>
@@ -209,7 +243,7 @@ export default function RightSide() {
                 className="form-input"
                 type="text"
                 name="affiliation"
-                value={formData.affiliation}
+                value={formData.Affiliation}
                 placeholder="Affiliation"
                 onChange={handleChange}
               />
