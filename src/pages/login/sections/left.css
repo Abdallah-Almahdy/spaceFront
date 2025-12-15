@@ -1,30 +1,123 @@
-
-
-.signin-container {
+.left-container {
+  flex: 1;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: white;
   display: flex;
-  height: 100vh;
-  font-family: Arial, sans-serif;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
 }
 
-.signin-image {
-  flex: 1; /* تلت الصفحة تقريبًا */
-  background-image: url("../../../assets/space.jpg");
-  position: relative;
+.left-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("../../../assets/space.jpg");
   background-size: cover;
   background-position: center;
+  opacity: 0.3;
 }
 
-.signin-image-inside {
-  background-color: #000000;
-  position: absolute;
+.left-content {
+  max-width: 500px;
   width: 100%;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
   height: 100%;
 }
 
-.signin-form {
-  flex: 2; /* باقي الصفحة */
+.logo-header {
+  margin-bottom: 60px;
+}
+
+.logo {
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #ffffff;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.main-slogan {
+  flex: 1;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.slogan-line {
+  display: flex;
   align-items: center;
-  background-color: #f9f9f9;
+  gap: 10px;
+  font-size: 2.8rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+
+.slogan-text {
+  color: #ffffff;
+  opacity: 0.9;
+}
+
+.slogan-highlight {
+  color: #facc15;
+  text-shadow: 0 0 20px rgba(250, 204, 21, 0.3);
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-top: auto;
+}
+
+.footer-links a {
+  color: #facc15;
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+
+.footer-links a:hover {
+  opacity: 0.9;
+  text-decoration: underline;
+}
+
+.separator {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 1200px) {
+  .slogan-line {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .left-container {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    font-size: 1.8rem;
+  }
+
+  .slogan-line {
+    font-size: 1.8rem;
+  }
 }

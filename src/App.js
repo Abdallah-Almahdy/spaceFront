@@ -14,7 +14,7 @@ import Magnetosphere from "./pages/magnetosphere/index.jsx"; // ✅ صفحة Mag
 import Sun from "./pages/sun/index.jsx"; //  صفحة Sun الجديدة
 import Instruments from "./pages/instruments/index.jsx" //صفحة instruments
 import Missions from "./pages/missions/index.jsx" //صفحة missions
-
+import ProtectedRoute from "./components/ProtectedRoute";
 //  المكونات الإضافية
 import ForgetPassword from "./components/ForgetPassword.js";
 import ConfirmNumber from "./components/ConfirmNumber.js";
@@ -27,14 +27,28 @@ function App() {
     <Router>
       <Routes>
         {/* 🏠 الصفحة الرئيسية */}
-        <Route path="/" element={<Home/>} />
+        <Route path="/" element={<Home />} />
 
         {/* ℹ️ الصفحات التعريفية */}
-        <Route path="/about" element={<AboutUsPage />} />
+        <Route
+          path="/about"
+          element={
+            <ProtectedRoute>
+              <AboutUsPage />
+            </ProtectedRoute>
+          }
+        />
 
         {/* 👤 صفحات المستخدم */}
         <Route path="/register" element={<CreateAccount />} />
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={
+            <ProtectedRoute>
+              <Login />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="/confirm-number" element={<ConfirmNumber />} />
         <Route path="/basic-info" element={<BasicInfo />} />
@@ -54,14 +68,13 @@ function App() {
         {/*  صفحة Sun */}
         <Route path="/sun" element={<Sun />} />
 
-         {/*صفحة instruments */}
-         <Route path="/instruments" element={<Instruments />} />
+        {/*صفحة instruments */}
+        <Route path="/instruments" element={<Instruments />} />
 
-         {/*صفحة missions */}
-         <Route path="/missions" element={<Missions />} />
-         {/*confirmpassword*/}
-         <Route path="/confirmpassword" element={<Confirmpassword />} />
-
+        {/*صفحة missions */}
+        <Route path="/missions" element={<Missions />} />
+        {/*confirmpassword*/}
+        <Route path="/confirmpassword" element={<Confirmpassword />} />
       </Routes>
     </Router>
   );

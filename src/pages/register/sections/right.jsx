@@ -1,107 +1,266 @@
-// src/pages/CreateAccount.js
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import "./right.css";
+import { registerUser } from "../../../api/authApi";
 
-function RightSide() {
+export default function RightSide() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
     password: "",
+    confirmPassword: "",
+    country: "",
+    level: "",
+    affiliation: "",
+    phone: "",
   });
+
+  const [errors, setErrors] = useState({});
+  const [generalError, setGeneralError] = useState("");
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [countdown, setCountdown] = useState(5);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setErrors({ ...errors, [e.target.name]: "" });
+    setGeneralError("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Account Created:", formData);
+    try {
+      const result = await registerUser(formData);
+
+      if (result && result.token) {
+        setErrors({});
+        setGeneralError("");
+
+        setShowSuccessPopup(true);
+
+        let counter = 5;
+        setCountdown(counter);
+
+        const countdownInterval = setInterval(() => {
+          counter--;
+          setCountdown(counter);
+
+          if (counter <= 0) {
+            clearInterval(countdownInterval);
+            navigate("/login");
+          }
+        }, 1000);
+
+        setTimeout(() => {
+          setShowSuccessPopup(false);
+          navigate("/login");
+        }, 5000);
+      }
+    } catch (err) {
+      if (err && typeof err === "object") {
+        setErrors(err);
+      } else if (typeof err === "string") {
+        setGeneralError(err);
+      } else {
+        setGeneralError("An unexpected error occurred");
+      }
+    }
+  };
+
+  const closePopup = () => {
+    setShowSuccessPopup(false);
+    navigate("/login");
   };
 
   return (
-<div className="bg-red-300 w-full">
-        {/* اللوجين في الأعلى */}
-        <div className="absolute top-10 right-10 text-lg">
-          <span className="mr-3">Already have an account?</span>
-          <Link to="/signin">
-            <button className="border-2 px-6 py-2 text-blue-700 border-blue-700 hover:bg-blue-700 hover:text-white rounded-full">
-              Sign in
-            </button>
-          </Link>
-        </div>
-      <div className="w-full flex items-center justify-center bg-white relative px-10 h-full">
-
-
-
-        {/* الفورم */}
-        <div className="max-w-xl w-full">
-          <h2 className="text-3xl font-bold mb-2">CREATE AN ACCOUNT</h2>
-          <p className="text-gray-500 mb-8">
-            Create your account to explore new frontiers
-          </p>
-
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Email */}
-            <div>
-              <label className="block mb-2 font-medium">Email address</label>
-              <input
-                type="email"
-                name="email"
-                placeholder="Sample@gmail.com"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full border px-5 py-3 rounded-lg border-gray-300 text-lg"
-              />
-            </div>
-
-            {/* Password */}
-            <div>
-              <label className="block mb-2 font-medium">Password</label>
-              <input
-                type="password"
-                name="password"
-                placeholder="Enter password"
-                value={formData.password}
-                onChange={handleChange}
-                className="w-full border px-5 py-3 rounded-lg border-gray-300 text-lg"
-              />
-            </div>
-
-            {/* Terms */}
-            <p className="text-gray-500 text-sm">
-              By creating account, you agree to our{" "}
-              <span className="text-blue-600 font-semibold cursor-pointer">
-                Terms & Conditions
-              </span>
+    <div className="right-container">
+      {/* Success Popup */}
+      {showSuccessPopup && (
+        <div className="success-popup">
+          <button className="success-popup-close" onClick={closePopup}>
+            ×
+          </button>
+          <div className="success-popup-content">
+            <h3>🎉 Account Created Successfully!</h3>
+            <p>
+              Your email <strong>{formData.email}</strong> has been registered
+              successfully.
+              <br />
+              You will be redirected to login page in{" "}
+              <span className="countdown">{countdown}</span> seconds.
             </p>
-
-            {/* زر إنشاء الحساب */}
-            <button
-              type="submit"
-              className="px-10 bg-gradient-to-r from-yellow-400 to-yellow-400 text-black py-3 rounded-full font-semibold text-lg hover:opacity-90 shadow-lg"
-            >
-              Create an account
-            </button>
-          </form>
-
-          {/* أو أنشئ حساب باستخدام */}
-          <div className="mt-8">
-            <p className="text-center text-gray-500 mb-4">
-              Or create an account using:
-            </p>
-            <div className="flex justify-center space-x-4">
-              <button className="flex items-center px-4 py-2 border rounded-full hover:bg-gray-50">
-                <span className="ml-2">Facebook</span>
-              </button>
-              <button className="flex items-center px-4 py-2 border rounded-full hover:bg-gray-50">
-                <span className="ml-2">Google</span>
-              </button>
-            </div>
           </div>
         </div>
+      )}
+
+      <div className="form-wrapper">
+        <div className="form-header">
+          <div className="account-prompt">
+            <span className="no-account">Already have an account</span>
+            <span className="divider">/</span>
+            <Link to="/login" className="sign-in-link">
+              Sign in
+            </Link>
+          </div>
+
+          <div className="form-title-section">
+            <h1 className="form-main-title">YOUR BASIC INFORMATIONS</h1>
+            <p className="form-subtitle">Please fill out the form below</p>
+          </div>
+        </div>
+
+        {generalError && (
+          <div className="general-error">
+            <p className="text-red-600 font-semibold">{generalError}</p>
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="information-form">
+          {/* الاسم */}
+          <div className="form-row">
+            <div className="form-group">
+              <label>Name</label>
+              <input
+                className="form-input"
+                type="text"
+                name="name"
+                value={formData.name}
+                placeholder="Name"
+                onChange={handleChange}
+              />
+              {errors.name && Array.isArray(errors.name) && (
+                <p className="field-error">{errors.name[0]}</p>
+              )}
+            </div>
+          </div>
+
+          {/* البريد الإلكتروني */}
+          <div className="form-row">
+            <div className="form-group">
+              <label>Email</label>
+              <input
+                className="form-input"
+                type="email"
+                name="email"
+                value={formData.email}
+                placeholder="Email"
+                onChange={handleChange}
+              />
+              {errors.email && Array.isArray(errors.email) && (
+                <p className="field-error">{errors.email[0]}</p>
+              )}
+            </div>
+          </div>
+
+          {/* الصف الأول: Country و Phone جنب بعض */}
+          <div className="form-row two-columns">
+            <div className="form-group">
+              <label>Country</label>
+              <input
+                className="form-input"
+                type="text"
+                name="country"
+                value={formData.country}
+                placeholder="Country"
+                onChange={handleChange}
+              />
+              {errors.country && Array.isArray(errors.country) && (
+                <p className="field-error">{errors.country[0]}</p>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label>Phone</label>
+              <input
+                className="form-input"
+                type="text"
+                name="phone"
+                value={formData.phone}
+                placeholder="Phone"
+                onChange={handleChange}
+              />
+              {errors.phone && Array.isArray(errors.phone) && (
+                <p className="field-error">{errors.phone[0]}</p>
+              )}
+            </div>
+          </div>
+
+          {/* الصف الثاني: Level و Affiliation جنب بعض */}
+          <div className="form-row two-columns">
+            <div className="form-group">
+              <label>Level</label>
+              <input
+                className="form-input"
+                type="text"
+                name="level"
+                value={formData.level}
+                placeholder="Level"
+                onChange={handleChange}
+              />
+              {errors.level && Array.isArray(errors.level) && (
+                <p className="field-error">{errors.level[0]}</p>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label>Affiliation</label>
+              <input
+                className="form-input"
+                type="text"
+                name="affiliation"
+                value={formData.affiliation}
+                placeholder="Affiliation"
+                onChange={handleChange}
+              />
+              {errors.affiliation && Array.isArray(errors.affiliation) && (
+                <p className="field-error">{errors.affiliation[0]}</p>
+              )}
+            </div>
+          </div>
+
+          {/* الصف الثالث: Password و Confirm Password جنب بعض */}
+          <div className="form-row two-columns">
+            <div className="form-group">
+              <label>Password</label>
+              <input
+                className="form-input"
+                type="password"
+                name="password"
+                value={formData.password}
+                placeholder="Password"
+                onChange={handleChange}
+              />
+              {errors.password && Array.isArray(errors.password) && (
+                <p className="field-error">{errors.password[0]}</p>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label>Confirm Password</label>
+              <input
+                className="form-input"
+                type="password"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                placeholder="Confirm Password"
+                onChange={handleChange}
+              />
+              {errors.confirmPassword &&
+                Array.isArray(errors.confirmPassword) && (
+                  <p className="field-error">{errors.confirmPassword[0]}</p>
+                )}
+            </div>
+          </div>
+
+          {/* زر الإنشاء */}
+          <div className="form-row">
+            <button className="submit-button" type="submit">
+              Create Account
+            </button>
+          </div>
+        </form>
       </div>
-   </div>
+    </div>
   );
 }
-
-export default RightSide;
-

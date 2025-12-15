@@ -1,20 +1,36 @@
 import React from "react";
 import "./left.css";
-import { Link } from "react-router-dom";
 
 export default function LeftSide() {
   return (
-    <div className="signin-container">
-      {/* الجزء الخاص بالصورة والنصوص */}
-      <div className="signin-image">
-        <div className="text-2xl text-white p-5 font-bold ">LOGO</div>
-        <div className="text-2xl text-white p-5 font-bold flex flex-col gap-2">
-          <p>DO IT<span className="text-yellow-400  shadow-xl"> NOW</span></p>
-          <p>DISCOVER<span className="text-yellow-400  shadow-xl"> BEYOND</span></p>
-          <p>TOUCH<span className="text-yellow-400  shadow-xl"> INFINITY</span></p>
+    <div className="left-container">
+      <div className="left-content">
+        {/* LOGO في الأعلى اليسار */}
+        <div className="logo-header">
+          <div className="logo">LOGO</div>
         </div>
-        <div className="absolute bottom-4 left-2 text-white text-xs">
-          <span className=" shadow-xl">Terms & Conditions</span> | <span className=" shadow-xl">Privacy Policy</span>
+
+        {/* الشعار الرئيسي */}
+        <div className="main-slogan">
+          <div className="slogan-line">
+            <span className="slogan-text">DO IT</span>
+            <span className="slogan-highlight">NOW</span>
+          </div>
+          <div className="slogan-line">
+            <span className="slogan-text">DISCOVER</span>
+            <span className="slogan-highlight">BEYOND</span>
+          </div>
+          <div className="slogan-line">
+            <span className="slogan-text">TOUCH</span>
+            <span className="slogan-highlight">INFINITY</span>
+          </div>
+        </div>
+
+        {/* Footer Links */}
+        <div className="footer-links">
+          <a href="/terms">Terms & Conditions</a>
+          <span className="separator">|</span>
+          <a href="/privacy">Privacy Policy</a>
         </div>
       </div>
     </div>

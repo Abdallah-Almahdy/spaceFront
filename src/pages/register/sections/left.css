@@ -1,30 +1,145 @@
-
-
-.signin-container {
+.left-container {
+  flex: 1;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: white;
   display: flex;
-  height: 100vh;
-  font-family: Arial, sans-serif;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
 }
 
-.signin-image {
-  flex: 1; /* تلت الصفحة تقريبًا */
-  background-image: url("../../../assets/space.jpg");
-  position: relative;
+.left-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("../../../assets/space.jpg");
   background-size: cover;
   background-position: center;
+  opacity: 0.4;
 }
 
-.signin-image-inside {
-  background-color: #000000;
-  position: absolute;
+.left-content {
+  max-width: 600px;
   width: 100%;
-  height: 100%;
+  z-index: 1;
 }
 
-.signin-form {
-  flex: 2; /* باقي الصفحة */
+.logo-section {
+  margin-bottom: 60px;
+}
+
+.logo {
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #ffffff;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.slogan-section {
+  margin-bottom: 80px;
+}
+
+.slogan-main {
+  font-size: 4rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 20px;
+  letter-spacing: -1px;
+}
+
+.slogan-sub {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 10px;
+  opacity: 0.9;
+}
+
+.highlight {
+  color: #facc15;
+  text-shadow: 0 0 20px rgba(250, 204, 21, 0.3);
+}
+
+.photo-section {
+  margin-bottom: 60px;
+}
+
+.photo-frame {
+  width: 300px;
+  height: 300px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.1);
   display: flex;
-  justify-content: center;
   align-items: center;
-  background-color: #f9f9f9;
+  justify-content: center;
+  padding: 30px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.photo-placeholder {
+  text-align: center;
+}
+
+.photo-text {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #facc15;
+  margin-bottom: 8px;
+}
+
+.photo-subtext {
+  font-size: 1rem;
+  opacity: 0.7;
+  letter-spacing: 1px;
+}
+
+.footer-section {
+  position: absolute;
+  bottom: 40px;
+  left: 40px;
+  right: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.footer-links a {
+  color: #facc15;
+  text-decoration: none;
+  margin: 0 10px;
+  transition: opacity 0.3s;
+}
+
+.footer-links a:hover {
+  opacity: 0.8;
+}
+
+@media (max-width: 1200px) {
+  .slogan-main {
+    font-size: 3rem;
+  }
+
+  .slogan-sub {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .left-container {
+    display: none;
+  }
 }

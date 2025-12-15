@@ -1,20 +1,43 @@
 import React from "react";
 import "./left.css";
-import { Link } from "react-router-dom";
 
 export default function LeftSide() {
   return (
-    <div className="signin-container">
-      {/* الجزء الخاص بالصورة والنصوص */}
-      <div className="signin-image">
-        <div className="text-2xl text-white p-5 font-bold ">LOGO</div>
-        <div className="text-2xl text-white p-5 font-bold flex flex-col gap-2">
-          <p>DO IT<span className="text-yellow-400  shadow-xl"> NOW</span></p>
-          <p>DISCOVER<span className="text-yellow-400  shadow-xl"> BEYOND</span></p>
-          <p>TOUCH<span className="text-yellow-400  shadow-xl"> INFINITY</span></p>
+    <div className="left-container">
+      <div className="left-content">
+        <div className="logo-section">
+          <div className="logo">LOGO</div>
         </div>
-        <div className="absolute bottom-4 left-2 text-white text-xs">
-          <span className=" shadow-xl">Terms & Conditions</span> | <span className=" shadow-xl">Privacy Policy</span>
+
+        <div className="slogan-section">
+          <h1 className="slogan-main">
+            DO IT <span className="highlight">NOW</span>
+          </h1>
+          <h2 className="slogan-sub">
+            DISCOVER <span className="highlight">BEYOND</span>
+          </h2>
+          <h2 className="slogan-sub">
+            TOUCH <span className="highlight">INFINITY</span>
+          </h2>
+        </div>
+
+        <div className="photo-section">
+          <div className="photo-frame">
+            <div className="photo-placeholder">
+              <span className="photo-text">Firm in Something</span>
+              <span className="photo-subtext">Photo</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="footer-section">
+          <div className="copyright">
+            &copy; 2024 Your Company. All rights reserved.
+          </div>
+          <div className="footer-links">
+            <a href="/terms">Terms & Conditions</a> |
+            <a href="/privacy"> Privacy Policy</a>
+          </div>
         </div>
       </div>
     </div>
