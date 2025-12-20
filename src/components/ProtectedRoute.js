@@ -32,9 +32,6 @@ export default function ProtectedRoute({ children }) {
       </div>
     );
   }
-  if (isAuth) {
-    return <Navigate to="/" />;
-  }
 
   if (!isAuth) return <Navigate to="/login" />;
 

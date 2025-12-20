@@ -31,25 +31,11 @@ function App() {
         <Route path="/" element={<Home/>} />
 
         {/* ℹ️ الصفحات التعريفية */}
-        <Route
-          path="/about"
-          element={
-            <ProtectedRoute>
-              <AboutUsPage />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/about" element={<AboutUsPage />} />
 
         {/* 👤 صفحات المستخدم */}
         <Route path="/register" element={<CreateAccount />} />
-        <Route
-          path="/login"
-          element={
-            <ProtectedRoute>
-              <Login />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/login" element={<Login />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="/confirm-number" element={<ConfirmNumber />} />
         <Route path="/basic-info" element={<BasicInfo />} />
@@ -76,7 +62,14 @@ function App() {
         <Route path="/missions" element={<Missions />} />
 
         {/*صفحة report */}
-        <Route path="/report" element={<Report />} />
+        <Route
+          path="/report"
+          element={
+            <ProtectedRoute>
+              <Report />
+            </ProtectedRoute>
+          }
+        />
         {/*confirmpassword*/}
         <Route path="/confirmpassword" element={<Confirmpassword />} />
       </Routes>
