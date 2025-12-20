@@ -28,7 +28,7 @@ function App() {
     <Router>
       <Routes>
         {/* 🏠 الصفحة الرئيسية */}
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home/>} />
 
         {/* ℹ️ الصفحات التعريفية */}
         <Route
