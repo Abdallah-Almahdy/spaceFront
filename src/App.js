@@ -14,7 +14,8 @@ import Magnetosphere from "./pages/magnetosphere/index.jsx"; // ✅ صفحة Mag
 import Sun from "./pages/sun/index.jsx"; //  صفحة Sun الجديدة
 import Instruments from "./pages/instruments/index.jsx" //صفحة instruments
 import Missions from "./pages/missions/index.jsx" //صفحة missions
-import Report from"./pages/report/index.jsx"
+import Report from "./pages/report/index.jsx"
+import Archive from "./pages/archive/index.jsx"
 import ProtectedRoute from "./components/ProtectedRoute";
 //  المكونات الإضافية
 import ForgetPassword from "./components/ForgetPassword.js";
@@ -60,6 +61,9 @@ function App() {
 
         {/*صفحة missions */}
         <Route path="/missions" element={<Missions />} />
+
+        {/*صفحة archive */}
+        <Route path="/archive" element={<Archive />} />
 
         {/*صفحة report */}
         <Route
