@@ -65,9 +65,9 @@ function App() {
         <Route
           path="/report"
           element={
-            <ProtectedRoute>
+          
               <Report />
-            </ProtectedRoute>
+     
           }
         />
         {/*confirmpassword*/}
