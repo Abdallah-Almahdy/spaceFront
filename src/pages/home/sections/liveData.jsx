@@ -10,7 +10,8 @@ export default function LiveData() {
     kpIndex:
       "https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json",
     imf: "https://services.swpc.noaa.gov/products/solar-wind/mag-1-day.json",
-    plasma: "https://services.swpc.noaa.gov/products/solar-wind/plasma-1-day.json",
+    plasma:
+      "https://services.swpc.noaa.gov/products/solar-wind/plasma-1-day.json",
     xray: "https://services.swpc.noaa.gov/json/goes/secondary/xray-flares-latest.json",
 
     // ☀️ Sun image + fallback
@@ -35,10 +36,10 @@ export default function LiveData() {
         const kpValue = parseFloat(kpData[1]);
 
         const imfLast = imfRes.data[imfRes.data.length - 1];
-        
+
         const btotal = parseFloat(imfLast[6]);
         const bz = parseFloat(imfLast[3]);
-        
+
         const plasmaLast = plasmaRes.data[plasmaRes.data.length - 1];
         const windSpeed = parseFloat(plasmaLast[1]);
         const density = parseFloat(plasmaLast[2]);
@@ -55,13 +56,13 @@ export default function LiveData() {
 
         setData({
           metrics: [
-            { name: "KP Index", value: kpValue },
-            { name: "IMF Btotal", value: btotal },
-            { name: "IMF Bz", value: bz },
-            { name: "Solar Wind Speed", value: windSpeed },
-            { name: "Solar Wind Density", value: density },
-            { name: "X-ray Flare", value: xrayValue },
-            { name: "VTEC", value: vtecValue },
+            { name: "KP Index", value: kpValue, max: 9 },
+            { name: "IMF Btotal", value: btotal, max: 30 },
+            { name: "IMF Bz", value: Math.abs(bz), max: 20 },
+            { name: "Solar Wind Speed", value: windSpeed, max: 800 },
+            { name: "Solar Wind Density", value: density, max: 1000 },
+            { name: "X-ray Flare", value: 1, max: 1 }, 
+            { name: "VTEC", value: vtecValue, max: 100 },
           ],
           sun: { date },
         });
@@ -139,18 +140,21 @@ export default function LiveData() {
 
       {/* Subtitle */}
       <p className="text-[#435567] text-sm  md:text-[23px] leading-[150%] mt-2 mb-10 max-w-2xl">
-        Stay up-to-date with real-time space weather parameters that impact satellites
+        Stay up-to-date with real-time space weather parameters that impact
+        satellites
       </p>
 
       {/* Cards Grid */}
-      <div className="
+      <div
+        className="
         grid 
         grid-cols-1 
         sm:grid-cols-2 
         md:grid-cols-3 
         lg:grid-cols-3 
         gap-[40px]
-      ">
+      "
+      >
         {data.metrics.map((item, idx) => (
           <div
             key={idx}
@@ -173,7 +177,9 @@ export default function LiveData() {
               hover:shadow-md
             "
           >
-            <h3 className="text-sm md:text-base font-semibold mb-1">{item.name}</h3>
+            <h3 className="text-sm md:text-base font-semibold mb-1">
+              {item.name}
+            </h3>
             <p className="text-gray-400 text-xs md:text-sm mb-2">Value</p>
 
             <p className="text-xl md:text-2xl font-bold mb-3">{item.value}</p>
@@ -184,7 +190,7 @@ export default function LiveData() {
                 style={{
                   width: `${
                     typeof item.value === "number"
-                      ? Math.min(Math.abs(item.value), 100)
+                      ? Math.min((item.value / item.max) * 100, 100)
                       : 100
                   }%`,
                 }}
@@ -199,7 +205,8 @@ export default function LiveData() {
         ))}
 
         {/* Sun Card */}
-        <div className="
+        <div
+          className="
           w-full
           bg-black 
           text-white 
@@ -208,7 +215,8 @@ export default function LiveData() {
           flex 
           flex-col 
           items-center
-        ">
+        "
+        >
           <h3 className="text-sm md:text-base mb-1">Daily Sun</h3>
           <p className="mb-3 text-xs md:text-sm">{data.sun.date}</p>
 
@@ -223,4 +231,3 @@ export default function LiveData() {
     </section>
   );
 }
-
