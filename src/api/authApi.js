@@ -46,6 +46,17 @@ export const loginUser = async (data) => {
   }
 };
 
+export const fetchUserData = async () => {
+  try {
+    const response = await axiosInstance.get("/user");
+    console.log("Fetched user data:", response.data);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { message: "Failed to fetch user data" };
+  }
+};
+
+
 // 🔹 Logout user
 export const logoutUser = async () => {
   try {
@@ -53,7 +64,7 @@ export const logoutUser = async () => {
 
     // إزالة token و user
     localStorage.removeItem("authToken");
-    localStorage.removeItem("user");
+
 
     return { message: "Logged out successfully" };
   } catch (error) {
@@ -73,16 +84,20 @@ export const getProfile = async () => {
 };
 
 export const checkAuth = async () => {
-  const token = localStorage.getItem("authToken");
+  const token =
+    localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
   if (!token) return false;
 
   try {
     const response = await axiosInstance.get("/user", {
       headers: { Authorization: `Bearer ${token}` },
     });
-    return response.data; // بيانات المستخدم إذا صالح
+    return response.data.user || response.data; // ترجع بيانات المستخدم
   } catch (error) {
     console.error("Invalid token or expired:", error);
+    // إزالة التوكن لو منتهي الصلاحية
+    localStorage.removeItem("authToken");
+    sessionStorage.removeItem("authToken");
     return false;
   }
 };

@@ -34,6 +34,7 @@ export default function ProtectedRoute({ children }) {
   }
 
   if (!isAuth) return <Navigate to="/login" />;
+  
 
   return children;
 }
