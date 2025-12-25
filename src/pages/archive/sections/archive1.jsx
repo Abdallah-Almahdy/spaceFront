@@ -7,6 +7,7 @@ export default function Archive1() {
   const [date, setDate] = useState("");
   const [pdfExists, setPdfExists] = useState(false);
   const [loading, setLoading] = useState(false);
+  
 
   const pdfUrl = date ? `${API_BASE}/reports/${date}` : null;
   const downloadUrl = date ? `${API_BASE}/reports/${date}/download` : null;
