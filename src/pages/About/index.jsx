@@ -10,7 +10,7 @@ import About9 from "./sections/about9";
 import About10 from "./sections/about10";
 import About11 from "./sections/about11";
 
-const AboutUsPage = () => {
+const AboutUsPage = () => {git 
   return (
     <div className="w-full">
       <About1 />
