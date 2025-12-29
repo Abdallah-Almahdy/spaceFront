@@ -1,7 +1,6 @@
 import React from "react";
 import About1 from "./sections/about1";
 import About2 from "./sections/about2";
-import About3 from "./sections/about3";
 import About4 from "./sections/about4";
 import About5 from "./sections/about5";
 import About6 from "./sections/about6";
@@ -16,7 +15,6 @@ const AboutUsPage = () => {
     <div className="w-full">
       <About1 />
       <About2 />
-      <About3 />
       <About4 />
       <About5 />
       <About6 />

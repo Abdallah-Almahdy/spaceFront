@@ -1,59 +1,136 @@
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import instImg1 from "../../../assets/instimg1.jpg";
-import Navbar from "../../../components/navbar";
+import bgImage from "../../../assets/space.jpg";
+import logo1 from "../../../assets/logo1.png";
+import logo2 from "../../../assets/logo2.png";
+import { fetchUserData, logoutUser as apiLogoutUser } from "../../../api/authApi";
 
 export default function Inst1() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const verifyToken = async () => {
+      try {
+        const data = await fetchUserData();
+        setUser(data);
+      } catch {
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    verifyToken();
+  }, []);
+
+  const handleLogout = async () => {
+    await apiLogoutUser();
+    setUser(null);
+    navigate("/");
+  };
+
+  const navItems = [
+    { name: "Home", link: "/" },
+    { name: "About Us", link: "/about" },
+    { name: "Space Weather", link: "/space-weather" },
+    { name: "Instruments", link: "/instruments" },
+    { name: "Missions", link: "/missions" },
+    { name: "Report", link: "/report" },
+    { name: "Real Time Data", link: "/data" },
+    { name: "Forecast Models", link: "/forecast" },
+    { name: "Archive", link: "/archive" },
+    ...(user?.isAdmin ? [{ name: "Dashboard", link: "/dashboard" }] : []),
+  ];
+
+  if (loading) {
+    return (
+      <div className="h-48 flex items-center justify-center bg-black text-white">
+        Verifying session...
+      </div>
+    );
+  }
+
   return (
-    <div className="relative w-full min-h-screen overflow-x-hidden overflow-y-auto">
+    <div className="w-full min-h-screen bg-white">
+      {/* ================= Navbar ================= */}
+      <nav className="fixed top-0 left-0 w-full z-50 bg-black/60 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+          <Link to="/">
+            <img src={logo2} alt="Logo" className="w-12 h-12 object-contain" />
+          </Link>
 
-      {/* ✅ النافبار فوق كل المحتوى */}
-      <div className="relative z-50">
-        <Navbar />
-      </div>
+          <div className="hidden md:flex gap-8 text-white font-semibold">
+            {navItems.map((item, i) => (
+              <Link key={i} to={item.link} className="hover:text-yellow-400">
+                {item.name}
+              </Link>
+            ))}
+            {user ? (
+              <button
+                onClick={handleLogout}
+                className="hover:text-yellow-400"
+              >
+                Logout
+              </button>
+            ) : (
+              <Link to="/login" className="hover:text-yellow-400">
+                Login
+              </Link>
+            )}
+          </div>
 
-      {/* ⭐ الخلفية المائلة — ريسبونسيف الآن */}
-      <div className="absolute inset-0 -z-20 pointer-events-none overflow-hidden">
-        <div
-          className="
-            w-[130%] 
-            h-[130%]
-            bg-red-100 
-            rotate-[-2deg] 
-            translate-y-[80px]
-            mx-auto
-          "
-        ></div>
-      </div>
+          <Link to="https://egsa.gov.eg/" target="_blank">
+            <img src={logo1} alt="EGSA" className="w-12 h-12 object-contain" />
+          </Link>
+        </div>
+      </nav>
 
-      {/* محتوى inst1 */}
-      <section className="relative w-full py-24 md:py-32 z-10">
+      {/* ================= Hero ================= */}
+      <header
+        className="h-[260px] md:h-[320px] flex items-center justify-center text-center"
+        style={{
+          backgroundImage: `url(${bgImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="mt-16">
+          <h1 className="text-white text-4xl md:text-6xl font-bold font-serif">
+            Egyptian Space Weather Center
+          </h1>
+          <p className="text-[#FEBC2F] text-xl md:text-3xl mt-2 font-serif">
+            Predict to Protect
+          </p>
+        </div>
+      </header>
+
+      {/* ================= Content ================= */}
+      <section className="relative py-24 overflow-hidden">
+        {/* خلفية مائلة نضيفة */}
+        <div className="absolute inset-0 -z-10">
+          <div className="w-[120%] h-full bg-red-100 rotate-[-2deg] mx-auto" />
+        </div>
+
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-
-          {/* النص */}
           <div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#1c1e2a] mb-6">
+            <h2 className="text-5xl font-extrabold text-[#1c1e2a] mb-6">
               Instruments
-            </h1>
-
-            <p className="text-gray-700 text-base sm:text-lg max-w-md leading-relaxed">
+            </h2>
+            <p className="text-gray-700 text-lg max-w-md leading-relaxed">
               The Egyptian Space Weather Center uses a variety of advanced
               instruments to monitor, analyze, and forecast space weather
-              conditions...
+              conditions.
             </p>
           </div>
 
-          {/* الصورة */}
           <div className="flex justify-center md:justify-end">
             <img
               src={instImg1}
-              alt="Earth"
-              className="
-                w-[230px] h-[230px]
-                sm:w-[300px] sm:h-[300px]
-                md:w-[350px] md:h-[350px]
-                lg:w-[420px] lg:h-[420px]
-                xl:w-[460px] xl:h-[460px]
-                object-cover rounded-full shadow-xl
-              "
+              alt="Instrument"
+              className="w-[320px] h-[320px] lg:w-[420px] lg:h-[420px] rounded-full object-cover shadow-xl"
             />
           </div>
         </div>
@@ -61,6 +138,3 @@ export default function Inst1() {
     </div>
   );
 }
-
-
-
