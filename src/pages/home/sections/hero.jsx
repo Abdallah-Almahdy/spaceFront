@@ -8,14 +8,13 @@ import {
   logoutUser as apiLogoutUser,
 } from "../../../api/authApi";
 
-
 const Hero = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // التحقق من صلاحية الـ token عبر API
+  // التحقق من صلاحية الـ token
   useEffect(() => {
     const verifyToken = async () => {
       const token =
@@ -29,7 +28,7 @@ const Hero = () => {
       }
 
       try {
-        const data = await fetchUserData(); // جلب بيانات المستخدم
+        const data = await fetchUserData();
         setUser(data);
       } catch (err) {
         console.error("Invalid token or session expired:", err);
@@ -42,14 +41,14 @@ const Hero = () => {
     verifyToken();
   }, []);
 
-  // دالة Logout
-const handleLogout = async () => {
-  await apiLogoutUser(); // تشغل الفانكشن من authApi
-  setUser(null);
-  navigate("/"); // أو "/" حسب ما تحب
-};
+  // Logout
+  const handleLogout = async () => {
+    await apiLogoutUser();
+    setUser(null);
+    navigate("/");
+  };
 
-  // تعريف العناصر بشكل ديناميكي
+  // Navbar items
   const navItems = [
     { name: "Home", link: "/" },
     { name: "About Us", link: "/about" },
@@ -60,7 +59,7 @@ const handleLogout = async () => {
     { name: "Real Time Data", link: "/data" },
     { name: "Forecast Models", link: "/forecast" },
     { name: "Archive", link: "/archive" },
-    ...(user?.isAdmin ? [{ name: "dashboard", link: "/dashboard" }] : []),
+    ...(user?.isAdmin ? [{ name: "Dashboard", link: "/dashboard" }] : []),
     ...(user
       ? [{ name: "Logout", link: "/logout", action: handleLogout }]
       : [{ name: "Login", link: "/login" }]),
@@ -99,18 +98,25 @@ const handleLogout = async () => {
           ))}
         </div>
 
+        {/* Logo Right */}
         <a
           href="https://egsa.gov.eg/"
           target="_blank"
           rel="noopener noreferrer"
+          className={`
+            bg-white rounded-full p-1 flex items-center justify-center
+            md:static md:translate-y-0
+            absolute right-16 top-1/2 -translate-y-1/2 md:right-auto
+          `}
         >
           <img
             src={logo1}
             alt="Logo Right"
-            className="w-12 h-12 sm:w-14 sm:h-14 object-contain"
+            className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 object-contain"
           />
         </a>
 
+        {/* Mobile menu icon */}
         <div
           className="md:hidden absolute right-6"
           onClick={() => setMenuOpen(!menuOpen)}

@@ -6,7 +6,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        poppins: ["Poppins", "sans-serif"],
+        heading: ['"Times New Roman"', 'Times', 'serif'],
+        body: ['Arial', 'Helvetica', 'sans-serif'],
       },
     },
   },

@@ -3,7 +3,7 @@ import missionimg2 from "../../../assets/missionimg2.png"; // استيراد ا�
 
 export default function Mission2() {
   return (
-    <section className="w-full font-sora py-16 px-4 sm:px-6 lg:px-10">
+    <section id="mission2" className="w-full font-sora py-16 px-4 sm:px-6 lg:px-10">
 
       {/* ROW 1 – IMAGE + FEATURE LIST */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">

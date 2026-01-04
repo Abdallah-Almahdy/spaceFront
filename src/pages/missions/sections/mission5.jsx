@@ -1,8 +1,9 @@
+import React from "react";
 import missionImg5 from "../../../assets/missionimg3.jpg";
 
 export default function Mission5() {
   return (
-    <section className="w-full bg-white py-16 px-4 lg:px-20">
+    <section id="mission5" className="w-full bg-white py-16 px-4 lg:px-20">
 
       {/* Top Section */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
@@ -102,4 +103,3 @@ export default function Mission5() {
     </section>
   );
 }
-

@@ -93,14 +93,21 @@ const About1 = () => {
           ))}
         </div>
 
-        <a href="https://egsa.gov.eg/" target="_blank" rel="noopener noreferrer">
+        {/* اللوجو على أقصى اليمين مع خلفية بيضاء مدورة وصغير */}
+        <a
+          href="https://egsa.gov.eg/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-white rounded-full p-1 flex items-center justify-center"
+        >
           <img
             src={logo1}
             alt="Logo Right"
-            className="w-12 h-12 sm:w-14 sm:h-14 object-contain"
+            className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 object-contain"
           />
         </a>
 
+        {/* Mobile menu icon */}
         <div
           className="md:hidden absolute right-6"
           onClick={() => setMenuOpen(!menuOpen)}

@@ -2,17 +2,14 @@ import React from "react";
 import MissionBg from "../../../components/missionbg";
 import bg from "../../../assets/missionimg1.jpg"; // ← الصورة اللي رفعتها
 
-
 export default function Mission1() {
   return (
-    <section className="font-sora">
+    <section id="mission1" className="font-sora">
       <MissionBg image={bg} height="850px">
-
         <div className="w-full max-w-7xl mx-auto px-6 lg:px-12 py-20 grid grid-cols-1 lg:grid-cols-2 gap-10">
 
           {/* LEFT SIDE TEXT */}
           <div className="text-white space-y-6">
-
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
               The Space Plasma Nano-satellite <br /> Experiment (SPNEX)
             </h1>
@@ -39,12 +36,10 @@ export default function Mission1() {
                 constraints while maintaining modularity and compactness.
               </p>
             </div>
-
           </div>
 
           {/* RIGHT SIDE BOX */}
           <div className="bg-black/40 backdrop-blur-md p-6 sm:p-10 rounded-xl text-white">
-
             <h2 className="text-xl sm:text-2xl font-semibold mb-4">
               The mission integrates
             </h2>
@@ -65,13 +60,10 @@ export default function Mission1() {
               <li>Disaster management</li>
               <li>Urban planning</li>
             </ol>
-
           </div>
 
         </div>
-
       </MissionBg>
     </section>
   );
 }
-
