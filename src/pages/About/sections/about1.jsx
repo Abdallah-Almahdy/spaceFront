@@ -3,7 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import about1Img from "../../../assets/Aurora.jpg";
 import logo1 from "../../../assets/logo1.png";
 import logo2 from "../../../assets/logo2.png";
-import { fetchUserData, logoutUser as apiLogoutUser } from "../../../api/authApi";
+import {
+  fetchUserData,
+  logoutUser as apiLogoutUser,
+} from "../../../api/authApi";
 
 const About1 = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -11,7 +14,6 @@ const About1 = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // التحقق من صلاحية الـ token
   useEffect(() => {
     const verifyToken = async () => {
       const token =
@@ -28,7 +30,6 @@ const About1 = () => {
         const data = await fetchUserData();
         setUser(data);
       } catch (err) {
-        console.error("Invalid token or session expired:", err);
         setUser(null);
       } finally {
         setLoading(false);
@@ -62,7 +63,7 @@ const About1 = () => {
 
   if (loading) {
     return (
-      <div className="w-full h-16 flex items-center justify-center bg-black text-white">
+      <div className="w-full h-48 md:h-60 flex items-center justify-center bg-black text-white">
         Verifying session...
       </div>
     );
@@ -72,6 +73,7 @@ const About1 = () => {
     <section className="relative w-full">
       {/* Navbar */}
       <nav className="absolute top-0 left-0 w-full flex items-center justify-between px-6 md:px-16 py-3 z-20 bg-black/50 backdrop-blur-sm">
+        {/* Logo Left */}
         <a href="/" target="_blank" rel="noopener noreferrer">
           <img
             src={logo2}
@@ -80,6 +82,7 @@ const About1 = () => {
           />
         </a>
 
+        {/* Desktop Menu */}
         <div className="hidden md:flex items-center justify-center flex-1 gap-8 text-white text-lg font-semibold">
           {navItems.map((item, idx) => (
             <Link
@@ -93,12 +96,16 @@ const About1 = () => {
           ))}
         </div>
 
-        {/* اللوجو على أقصى اليمين مع خلفية بيضاء مدورة وصغير */}
+        {/* Logo Right */}
         <a
           href="https://egsa.gov.eg/"
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-white rounded-full p-1 flex items-center justify-center"
+          className="
+            bg-white rounded-full p-1 flex items-center justify-center
+            md:static md:translate-y-0
+            absolute right-16 top-1/2 -translate-y-1/2 md:right-auto
+          "
         >
           <img
             src={logo1}
@@ -118,28 +125,31 @@ const About1 = () => {
             <span className="text-white text-2xl">≡</span>
           )}
         </div>
-
-        {menuOpen && (
-          <div className="absolute top-16 w-full bg-black/90 text-white flex flex-col items-center py-4 gap-4 md:hidden z-10">
-            {navItems.map((item, idx) => (
-              <Link
-                key={idx}
-                to={item.link}
-                onClick={() => {
-                  setMenuOpen(false);
-                  if (item.action) item.action();
-                }}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </div>
-        )}
       </nav>
 
-      {/* Hero-style About Section */}
+      {/* Mobile Menu (same as Home) */}
+      {menuOpen && (
+        <div className="absolute top-16 w-full bg-black/90 text-white flex flex-col items-center py-4 gap-4 md:hidden z-30">
+
+          {navItems.map((item, idx) => (
+            <Link
+              key={idx}
+              to={item.link}
+              onClick={() => {
+                setMenuOpen(false);
+                if (item.action) item.action();
+              }}
+              className="hover:text-yellow-400 transition-colors"
+            >
+              {item.name}
+            </Link>
+          ))}
+        </div>
+      )}
+
+      {/* About Hero */}
       <div
-        className="relative w-full h-48 md:h-60 flex flex-col items-center justify-center pt-12 bg-cover bg-center"
+        className="relative w-full h-48 md:h-60 bg-cover bg-center flex flex-col items-center justify-center pt-12"
         style={{ backgroundImage: `url(${about1Img})` }}
       >
         {/* Overlay */}
@@ -155,7 +165,7 @@ const About1 = () => {
           </h1>
 
           <h2
-            className="text-[#FEBC2F] mt-2 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold"
+            className="text-[#FEBC2F] mt-2 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-center"
             style={{ fontFamily: "Times New Roman, serif" }}
           >
             Learn More About ESWC
