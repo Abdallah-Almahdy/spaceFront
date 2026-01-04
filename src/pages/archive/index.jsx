@@ -3,7 +3,7 @@ import Hero from "../home/sections/hero.jsx"
 
 export default function Archive() {
   return (
-    <div className="p-6">
+    <div>
       <Hero/>
       <Archive1 />
       

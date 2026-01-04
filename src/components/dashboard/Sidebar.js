@@ -36,7 +36,7 @@ const Sidebar = ({ activeItem, setActiveItem }) => {
           />
         </svg>
       ),
-      path: "/report",
+      path: "/dashboard/report",
     },
    
   ];

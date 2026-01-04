@@ -56,7 +56,7 @@ const Hero = () => {
     { name: "Instruments", link: "/instruments" },
     { name: "Missions", link: "/missions" },
     { name: "Report", link: "/report" },
-    { name: "Real Time Data", link: "/data" },
+   
     { name: "Forecast Models", link: "/forecast" },
     { name: "Archive", link: "/archive" },
     ...(user?.isAdmin ? [{ name: "Dashboard", link: "/dashboard" }] : []),

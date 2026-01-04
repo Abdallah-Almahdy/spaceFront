@@ -5,6 +5,7 @@ import Mission1 from "./sections/mission1";
 import Mission2 from "./sections/mission2";
 import Mission4 from "./sections/mission4";
 import Mission5 from "./sections/mission5";
+import Hero from "../home/sections/hero";
 
 export default function Missions({ defaultProject = "project1", setActiveProjectFromHero }) {
   // استخدم الـ prop إذا مرره Hero، وإلا استخدم state محلي
@@ -18,7 +19,7 @@ export default function Missions({ defaultProject = "project1", setActiveProject
 
   return (
     <div className="w-full flex flex-col">
-
+     
       {/* Tabs فوق الصفحة */}
       <div className="flex justify-center gap-4 py-6">
         <button

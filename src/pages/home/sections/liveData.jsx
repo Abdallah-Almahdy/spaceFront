@@ -13,11 +13,20 @@ export default function LiveData() {
     plasma:
       "https://services.swpc.noaa.gov/products/solar-wind/plasma-1-day.json",
     xray: "https://services.swpc.noaa.gov/json/goes/secondary/xray-flares-latest.json",
-
-    // ☀️ Sun image + fallback
-    sun: "https://corsproxy.io/?https://services.swpc.noaa.gov/images/suvi/primary/195/latest.png",
     fallbackSun:
-      "https://upload.wikimedia.org/wikipedia/commons/4/4f/Sun_white.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/3f/Sun_white_light.jpg",
+  };
+
+  // 🔹 Function to get today's sun image URL
+  const getSunImageUrl = () => {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, "0");
+    const month = today
+      .toLocaleString("en-US", { month: "short" })
+      .toLowerCase(); // jan, feb...
+    const year = String(today.getFullYear()).slice(-2); // last 2 digits
+
+    return `https://www.spaceweather.com/images${today.getFullYear()}/${day}${month}${year}/hmi1898.gif?t=${Date.now()}`;
   };
 
   useEffect(() => {
@@ -36,7 +45,6 @@ export default function LiveData() {
         const kpValue = parseFloat(kpData[1]);
 
         const imfLast = imfRes.data[imfRes.data.length - 1];
-
         const btotal = parseFloat(imfLast[6]);
         const bz = parseFloat(imfLast[3]);
 
@@ -52,19 +60,22 @@ export default function LiveData() {
           year: "2-digit",
         });
 
-        const vtecValue = 68;
+        const vtecValue = 68; // static example
 
         setData({
           metrics: [
             { name: "KP Index", value: kpValue, max: 9 },
-            { name: "IMF Btotal", value: btotal, max: 30 },
-            { name: "IMF Bz", value: Math.abs(bz), max: 20 },
-            { name: "Solar Wind Speed", value: windSpeed, max: 800 },
-            { name: "Solar Wind Density", value: density, max: 1000 },
-            { name: "X-ray Flare", value: 1, max: 1 }, 
-            { name: "VTEC", value: vtecValue, max: 100 },
+            { name: "IMF Btotal", value: btotal, max: 100 },
+            { name: "IMF Bz", value: Math.abs(bz), max: 100 },
+            { name: "Solar Wind Speed", value: windSpeed, max: 900 },
+            { name: "Solar Wind Density", value: density, max: 100 },
+            { name: "X-ray Flare", value: xrayValue, max: 1 },
+            { name: "VTEC", value: vtecValue, max: 200 },
           ],
-          sun: { date },
+          sun: {
+            date,
+            image: getSunImageUrl(),
+          },
         });
       } catch (err) {
         console.error("Error fetching data:", err);
@@ -74,8 +85,13 @@ export default function LiveData() {
     };
 
     fetchAll();
+
+    // 🔁 Optional: auto refresh every 60 seconds
+    const interval = setInterval(fetchAll, 60000);
+    return () => clearInterval(interval);
   }, []);
 
+  // 🔹 Color coding
   const getColor = (name, value) => {
     switch (name) {
       case "KP Index":
@@ -84,27 +100,22 @@ export default function LiveData() {
         if (value === 6) return "bg-orange-500";
         if (value >= 7) return "bg-red-600";
         break;
-
       case "IMF Btotal":
         if (value < 10) return "bg-green-500";
         if (value < 20) return "bg-yellow-500";
         return "bg-red-600";
-
       case "IMF Bz":
         if (value > -5) return "bg-green-500";
         if (value > -10) return "bg-yellow-500";
         return "bg-red-600";
-
       case "Solar Wind Speed":
         if (value < 400) return "bg-green-500";
         if (value < 500) return "bg-orange-400";
         return "bg-red-600";
-
       case "Solar Wind Density":
         if (value < 5) return "bg-green-500";
         if (value < 10) return "bg-yellow-500";
         return "bg-red-600";
-
       case "X-ray Flare":
         if (typeof value === "string") {
           if (value.startsWith("B") || value.startsWith("C"))
@@ -113,12 +124,10 @@ export default function LiveData() {
           if (value.startsWith("X")) return "bg-red-600";
         }
         return "bg-gray-400";
-
       case "VTEC":
         if (value < 40) return "bg-yellow-400";
         if (value < 80) return "bg-green-500";
         return "bg-red-600";
-
       default:
         return "bg-gray-400";
     }
@@ -132,56 +141,25 @@ export default function LiveData() {
     );
 
   return (
-    <section className="px-4 sm:px-6 md:px-12 lg:px-24 py-16 ">
-      {/* Title */}
+    <section className="px-4 sm:px-6 md:px-12 lg:px-24 py-16">
       <h2 className="text-2xl mb-[20px] md:text-[14px] lg:text-[30px] xl:text-[50px] font-semibold text-black">
         Space Weather Live Data 🔭
       </h2>
-
-      {/* Subtitle */}
-      <p className="text-[#435567] text-sm  md:text-[23px] leading-[150%] mt-2 mb-10 max-w-2xl">
+      <p className="text-[#435567] text-sm md:text-[23px] leading-[150%] mt-2 mb-10 max-w-2xl">
         Stay up-to-date with real-time space weather parameters that impact
         satellites
       </p>
 
-      {/* Cards Grid */}
-      <div
-        className="
-        grid 
-        grid-cols-1 
-        sm:grid-cols-2 
-        md:grid-cols-3 
-        lg:grid-cols-3 
-        gap-[40px]
-      "
-      >
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-[40px]">
         {data.metrics.map((item, idx) => (
           <div
             key={idx}
-            className="
-              w-full 
-              bg-[#F8FAFC] 
-              py-[30px]
-              px-[35px]
-          
-              rounded-xl 
-              shadow-sm 
-              border 
-              border-gray-100 
-              flex 
-              flex-col 
-              justify-between
-              transition-all 
-              duration-300 
-              hover:-translate-y-1 
-              hover:shadow-md
-            "
+            className="w-full bg-[#F8FAFC] py-[30px] px-[35px] rounded-xl shadow-sm border border-gray-100 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
           >
             <h3 className="text-sm md:text-base font-semibold mb-1">
               {item.name}
             </h3>
             <p className="text-gray-400 text-xs md:text-sm mb-2">Value</p>
-
             <p className="text-xl md:text-2xl font-bold mb-3">{item.value}</p>
 
             <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden mb-3">
@@ -205,21 +183,9 @@ export default function LiveData() {
         ))}
 
         {/* Sun Card */}
-        <div
-          className="
-          w-full
-          bg-black 
-          text-white 
-          p-5 
-          rounded-xl 
-          flex 
-          flex-col 
-          items-center
-        "
-        >
+        <div className="w-full bg-black text-white p-5 rounded-xl flex flex-col items-center">
           <h3 className="text-sm md:text-base mb-1">Daily Sun</h3>
           <p className="mb-3 text-xs md:text-sm">{data.sun.date}</p>
-
           <img
             src={data.sun.image}
             alt="Sun"

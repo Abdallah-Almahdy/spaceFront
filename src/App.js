@@ -29,7 +29,8 @@ import DashboardLayout from "./components/dashboard/DashboardLayout";
 import PublicationTable from "./components/dashboard/PublicationTable";
 import NewPublication from "./components/dashboard/NewPublication";
 import EditPublication from "./components/dashboard/EditPublication";
-
+import ReportTable from "./components/dashboard/ReportTable";
+import Index from "./pages/model/index.jsx";
 import "./index.css";
 
 function App() {
@@ -43,7 +44,7 @@ function App() {
         <Route path="/about" element={<AboutUsPage />} />
 
         {/* 👤 صفحات المستخدم */}
-        <Route path="/register" element={<CreateAccount />} />
+        <Route path="/reg ister" element={<CreateAccount />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="/confirm-number" element={<ConfirmNumber />} />
@@ -59,7 +60,7 @@ function App() {
         <Route path="/missions" element={<Missions />} />
         <Route path="/archive" element={<Archive />} />
         <Route path="/report" element={<Report />} />
-
+        <Route path="/forecast" element={<Index />} />
         {/* 🔐 صفحة تأكيد كلمة المرور */}
         <Route path="/confirmpassword" element={<Confirmpassword />} />
 
@@ -76,6 +77,8 @@ function App() {
           <Route path="publications" element={<PublicationTable />} />
           <Route path="new-publication" element={<NewPublication />} />
           <Route path="edit-publication/:id" element={<EditPublication />} />
+
+          <Route path="report" element={<ReportTable />} />
         </Route>
       </Routes>
     </Router>

@@ -2,7 +2,7 @@ import React from "react";
 import { FileText, Download } from "lucide-react";
 
 export default function R1() {
-  const pdfUrl = "http://127.0.0.1:8001/api/reports/daily";
+  const pdfUrl =`http://127.0.0.1:8001/api/reports/daily?ts=${Date.now()}`;
 
   return (
     <section className="w-full mt-20 px-4 sm:px-6 lg:px-8 bg-gray-100 min-h-screen">
@@ -17,22 +17,7 @@ export default function R1() {
             Our Daily Report
           </h2>
 
-          {/* Download Button */}
-          <a
-            href={pdfUrl}
-            download
-            className="
-              flex items-center gap-2
-              px-4 py-2
-              rounded-lg
-              border border-gray-300
-              text-sm
-              hover:bg-gray-50
-            "
-          >
-            <Download size={16} />
-            Download PDF
-          </a>
+  
         </div>
 
         {/* PDF Viewer */}
