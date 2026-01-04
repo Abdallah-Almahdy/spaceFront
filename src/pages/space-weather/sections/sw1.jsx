@@ -28,7 +28,6 @@ const Sw1 = () => {
         const data = await fetchUserData();
         setUser(data);
       } catch (err) {
-        console.error("Invalid token or session expired:", err);
         setUser(null);
       } finally {
         setLoading(false);
@@ -72,6 +71,7 @@ const Sw1 = () => {
     <section className="relative w-full">
       {/* Navbar */}
       <nav className="absolute top-0 left-0 w-full flex items-center justify-between px-6 md:px-16 py-3 z-20 bg-black/50 backdrop-blur-sm">
+        {/* Logo Left */}
         <a href="/" target="_blank" rel="noopener noreferrer">
           <img
             src={logo2}
@@ -80,6 +80,7 @@ const Sw1 = () => {
           />
         </a>
 
+        {/* Desktop Menu */}
         <div className="hidden md:flex items-center justify-center flex-1 gap-8 text-white text-lg font-semibold">
           {navItems.map((item, idx) => (
             <Link
@@ -93,12 +94,16 @@ const Sw1 = () => {
           ))}
         </div>
 
-        {/* اللوجو على أقصى اليمين مع خلفية بيضاء مدورة وصغير */}
+        {/* Logo Right */}
         <a
           href="https://egsa.gov.eg/"
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-white rounded-full p-1 flex items-center justify-center"
+          className="
+            bg-white rounded-full p-1 flex items-center justify-center
+            md:static md:translate-y-0
+            absolute right-16 top-1/2 -translate-y-1/2 md:right-auto
+          "
         >
           <img
             src={logo1}
@@ -109,7 +114,7 @@ const Sw1 = () => {
 
         {/* Mobile menu icon */}
         <div
-          className="md:hidden absolute right-6"
+          className="md:hidden absolute right-6 z-50"
           onClick={() => setMenuOpen(!menuOpen)}
         >
           {menuOpen ? (
@@ -118,24 +123,26 @@ const Sw1 = () => {
             <span className="text-white text-2xl">≡</span>
           )}
         </div>
-
-        {menuOpen && (
-          <div className="absolute top-16 w-full bg-black/90 text-white flex flex-col items-center py-4 gap-4 md:hidden z-10">
-            {navItems.map((item, idx) => (
-              <Link
-                key={idx}
-                to={item.link}
-                onClick={() => {
-                  setMenuOpen(false);
-                  if (item.action) item.action();
-                }}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </div>
-        )}
       </nav>
+
+      {/* Mobile Menu */}
+      {menuOpen && (
+        <div className="absolute top-16 w-full bg-black/90 text-white flex flex-col items-center py-4 gap-4 md:hidden z-30">
+          {navItems.map((item, idx) => (
+            <Link
+              key={idx}
+              to={item.link}
+              onClick={() => {
+                setMenuOpen(false);
+                if (item.action) item.action();
+              }}
+              className="hover:text-yellow-400 transition-colors"
+            >
+              {item.name}
+            </Link>
+          ))}
+        </div>
+      )}
 
       {/* Hero-style Section */}
       <div
